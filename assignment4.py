@@ -17,7 +17,6 @@ from torch.distributed.optim import DistributedOptimizer
 import matplotlib.pyplot as plt
 
 
-
 class NeuralNetwork(nn.Module):
     def __init__(self,num_classes = 10):
         super(NeuralNetwork, self).__init__()
