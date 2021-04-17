@@ -1,69 +1,27 @@
+import os
+import time
+import threading
+import pandas as pd
 import torch
 from torch import nn
+from torch import optim
 from torch.utils.data import DataLoader
 from torchvision import datasets
 from torchvision.transforms import ToTensor, Lambda, Compose
+import torch.nn.functional as F
+import torch.multiprocessing as mp
+import torch.distributed.rpc as rpc
+from torch.distributed.rpc import RRef
+import torch.distributed.autograd as dist_autograd
+from torch.distributed.optim import DistributedOptimizer
 import matplotlib.pyplot as plt
 
-# Download training data from open datasets.
-training_data = datasets.MNIST(
-    root="data",
-    train=True,
-    download=True,
-    transform=ToTensor(),
-)
 
-# Download test data from open datasets.
-test_data = datasets.MNIST(
-    root="data",
-    train=False,
-    download=True,
-    transform=ToTensor(),
-)
 
-# Visualize training examples
-labels_map = {
-    0: "0",
-    1: "1",
-    2: "2",
-    3: "3",
-    4: "4",
-    5: "5",
-    6: "6",
-    7: "7",
-    8: "8",
-    9: "9",
-}
-figure = plt.figure(figsize=(8, 8))
-cols, rows = 3, 3
-for i in range(1, cols * rows + 1):
-    sample_idx = torch.randint(len(training_data), size=(1,)).item()
-    img, label = training_data[sample_idx]
-    figure.add_subplot(rows, cols, i)
-    plt.title(labels_map[label])
-    plt.axis("off")
-    plt.imshow(img.squeeze(), cmap="gray")
-plt.show()
-
-batch_size = 64
-
-train_dataloader = DataLoader(training_data,batch_size=batch_size)
-test_dataloader = DataLoader(test_data,batch_size=batch_size)
-
-for X, y in test_dataloader:
-    print("Shape of X [N, C, H, W]: ", X.shape)
-    print("Shape of y: ", y.shape, y.dtype)
-    break
-
-# Get cpu or gpu device for training.
-device = "cuda" if torch.cuda.is_available() else "cpu"
-print("Using {} device".format(device))
-
-# Define model
 class NeuralNetwork(nn.Module):
-    def __init__(self):
+    def __init__(self,num_classes = 10):
         super(NeuralNetwork, self).__init__()
-        # self.flatten = nn.Flatten()
+        self.num_classes = num_classes
         self.conv_stack = nn.Sequential(
             nn.Conv2d(1,10,kernel_size = 4),
             nn.ReLU(),
@@ -72,50 +30,76 @@ class NeuralNetwork(nn.Module):
             nn.ReLU(),
             nn.MaxPool2d(kernel_size = 2,stride = 2),
             nn.Flatten(),
-            nn.Linear(40,10),
+            nn.Linear(40,num_classes),
             nn.ReLU()
         )
     def forward(self, x):
         logits = self.conv_stack(x)
         return logits
 
-model = NeuralNetwork().to(device)
-print(model)
 
-loss_fn = nn.CrossEntropyLoss()
-optimizer = torch.optim.SGD(model.parameters(), lr=1e-2)
-
-def train(dataloader, model, loss_fn, optimizer):
-    size = len(dataloader.dataset)
-    for batch, (X, y) in enumerate(dataloader):
-        X, y = X.to(device), y.to(device)
-        # Compute prediction error
-        pred = model(X)
-        loss = loss_fn(pred, y)
-        # Backpropagation
-        optimizer.zero_grad()
-        loss.backward()
-        optimizer.step()
-        if batch % 100 == 0:
-            loss, current = loss.item(), batch * len(X)
-            print(f"loss: {loss:>7f}  [{current:>5d}/{size:>5d}]")
-
-def test(dataloader, model):
-    size = len(dataloader.dataset)
-    model.eval()
-    test_loss, correct = 0, 0
-    with torch.no_grad():
-        for X, y in dataloader:
-            X, y = X.to(device), y.to(device)
+def train(num_epochs,batch_size,learning_rate):
+    training_data = datasets.MNIST(
+        root = "data",
+        train = True,
+        download = True,
+        transform = ToTensor(),
+    )
+    test_data = datasets.MNIST(
+        root = "data",
+        train = False,
+        download = True,
+        transform = ToTensor(),
+    )
+    sampler = DistributedSampler(training_data)
+    training_dataloader = DataLoader(training_data,batch_size = batch_size,sampler = sampler)
+    model = NeuralNetwork(num_classes = 10)
+    model = DistributedDataParallel(model)
+    rank = dist.get_rank()
+    world_size = dist.get_world_size()
+    learning_rate *= world_size
+    optimizer = optim.SGD(model.parameters(),lr = learning_rate)
+    criterion = nn.CrossEntropyLoss()
+    iter_losses = []
+    epoch_losses = []
+    elapsed_times = []
+    epbar = range(num_epochs)
+    start = perf_counter()
+    for ep in epbar:
+        ep_loss = 0.0
+        num_iters = 0
+        for X, Y in training_dataloader:
+            optimizer.zero_grad()
             pred = model(X)
-            test_loss += loss_fn(pred, y).item()
-            correct += (pred.argmax(1) == y).type(torch.float).sum().item()
-    test_loss /= size
-    correct /= size
-    print(f"Test Error: \n Accuracy: {(100*correct):>0.1f}%, Avg loss: {test_loss:>8f} \n")
+            loss = criterion(pred, Y)
+            iter_losses.append(loss.item())
+            ep_loss += loss.item()
+            loss.backward()
+            optimizer.step()
+            num_iters += 1
+        ep_loss /= num_iters
+        if rank == 0:
+            print("epoch", ep, "num_iters", num_iters, "loss", ep_loss, "elapsed time (s)",perf_counter() - start)
+        epoch_losses.append(ep_loss)
+        elapsed_times.append(perf_counter()  - start)
+        metrics = pd.DataFrame({'epoch_losses': epoch_losses, 'elapsed_time':
+        elapsed_times})
+        metrics.to_csv('metrics.csv')
+    return iter_losses, epoch_losses
 
-epochs = 100
-for t in range(epochs):
-    print(f"Epoch {t+1}\n-------------------------------")
-    train(train_dataloader, model, loss_fn, optimizer)
-    test(test_dataloader, model)
+
+if __name__ ==  '__main__':
+    import argparse
+    parser = argparse.ArgumentParser()
+    args = parser.parse_args()
+    import mpi4py.MPI as MPI
+    rank = MPI.COMM_WORLD.Get_rank()
+    world_size = MPI.COMM_WORLD.Get_size()
+    if rank == 0:
+        print("World size:", world_size)
+    dist.init_process_group('gloo',
+        init_method = 'env://',
+        world_size = world_size,
+        rank = rank,
+    )
+    train()
