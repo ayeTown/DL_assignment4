@@ -1,0 +1,12 @@
+changed into working directory
+World size: 8
+Started training
+Started training
+Started training
+Started training
+Started training
+Started training
+Started training
+Started training
+epoch 0 num_iters 938 loss 1.6852241219170312 elapsed time (s) 7.931499240919948
+epoch 1 num_iters 938 loss 1.211948883145857 elapsed time (s) 15.771072745323181

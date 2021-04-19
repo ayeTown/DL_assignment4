@@ -60,7 +60,7 @@ class VolModel(nn.Module):
         x = self.classifier(x)
         return x
 
-def train(num_epochs = 30,batch_size = 1,learning_rate = 0.05):
+def train(num_epochs = 30,batch_size = 8,learning_rate = 0.05):
     training_data = datasets.MNIST(
         root = ".",
         train = True,
