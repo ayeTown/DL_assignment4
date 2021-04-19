@@ -1,0 +1,37 @@
+changed into working directory
+World size: 2
+Started training
+Started training
+epoch 0 num_iters 235 loss 2.176800687769626 elapsed time (s) 9.228470616042614
+epoch 1 num_iters 235 loss 1.5212251820462814 elapsed time (s) 18.269206050783396
+epoch 2 num_iters 235 loss 1.0459792936101873 elapsed time (s) 27.41481534950435
+epoch 3 num_iters 235 loss 0.8756159252308785 elapsed time (s) 36.394045643508434
+epoch 4 num_iters 235 loss 0.7829330283276579 elapsed time (s) 45.41863691993058
+epoch 5 num_iters 235 loss 0.7240159492543403 elapsed time (s) 54.493013544008136
+epoch 6 num_iters 235 loss 0.6917701160654108 elapsed time (s) 63.47505516372621
+epoch 7 num_iters 235 loss 0.6717662924147667 elapsed time (s) 72.53851572982967
+epoch 8 num_iters 235 loss 0.6536647853699137 elapsed time (s) 81.56850963644683
+epoch 9 num_iters 235 loss 0.6399624612737209 elapsed time (s) 90.60078542493284
+epoch 10 num_iters 235 loss 0.6331723824460456 elapsed time (s) 99.67392562702298
+epoch 11 num_iters 235 loss 0.6236066014208692 elapsed time (s) 108.71619935333729
+epoch 12 num_iters 235 loss 0.6194068064080908 elapsed time (s) 117.73454745300114
+epoch 13 num_iters 235 loss 0.6147647563447344 elapsed time (s) 126.76629400625825
+epoch 14 num_iters 235 loss 0.6092782813183805 elapsed time (s) 135.7674947362393
+epoch 15 num_iters 235 loss 0.6040622484176716 elapsed time (s) 144.7657158281654
+epoch 16 num_iters 235 loss 0.596986127153356 elapsed time (s) 154.39337285980582
+epoch 17 num_iters 235 loss 0.5918257001866686 elapsed time (s) 163.424514811486
+epoch 18 num_iters 235 loss 0.5885420048490484 elapsed time (s) 172.40949343703687
+epoch 19 num_iters 235 loss 0.5842797672494929 elapsed time (s) 181.44636951200664
+epoch 20 num_iters 235 loss 0.5832035017774461 elapsed time (s) 190.46593180671334
+epoch 21 num_iters 235 loss 0.5783380571832049 elapsed time (s) 199.48562007956207
+epoch 22 num_iters 235 loss 0.5769566717300009 elapsed time (s) 208.46755925938487
+epoch 23 num_iters 235 loss 0.5730030666006373 elapsed time (s) 217.4902496188879
+epoch 24 num_iters 235 loss 0.5701726893161205 elapsed time (s) 226.51615072786808
+epoch 25 num_iters 235 loss 0.5677999953640268 elapsed time (s) 235.4504138957709
+epoch 26 num_iters 235 loss 0.5648472410567263 elapsed time (s) 244.44983647204936
+epoch 27 num_iters 235 loss 0.5614635793452567 elapsed time (s) 253.56341998279095
+epoch 28 num_iters 235 loss 0.559026865756258 elapsed time (s) 262.72995067574084
+epoch 29 num_iters 235 loss 0.5560173463314138 elapsed time (s) 271.7574008591473
+Ended training
+Ended training
+done running python file.

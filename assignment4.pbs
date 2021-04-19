@@ -5,14 +5,14 @@
 #PBS -A ACF-UTK0150
 #PBS -o $PBS_JOBNAME.$PBS_JOBID.o
 #PBS -e $PBS_JOBNAME.$PBS_JOBID.e
-#PBS -l nodes=1:ppn=1
-#PBS -l walltime=00:10:00
+#PBS -l nodes=1:ppn=8
+#PBS -l walltime=00:20:00
 #PBS -l qos=condo
 
 module load anaconda3
 source $ANACONDA3_SH
 conda activate /lustre/haven/proj/UTK0150/envs/pytorch181
-echo "conda environment activated"
+set -xe
 
 cd /lustre/haven/proj/UTK0150/atown/assignment4
 echo "changed into working directory"
@@ -22,4 +22,7 @@ export MASTER_PORT=12345
 
 #####env
 
-mpirun -n $PBS_NP python assignment4.py
+mpirun -n $PBS_NP $(which python) assignment4.py
+####mpirun -np 1 $(which python) assignment4.py
+
+echo "done running python file."
