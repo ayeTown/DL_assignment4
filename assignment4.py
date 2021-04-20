@@ -60,7 +60,7 @@ class VolModel(nn.Module):
         x = self.classifier(x)
         return x
 
-def train(num_epochs = 30,batch_size = 8,learning_rate = 0.05):
+def train(num_epochs = 30,batch_size = 128,learning_rate = 0.05):
     training_data = datasets.MNIST(
         root = ".",
         train = True,
@@ -101,7 +101,7 @@ def train(num_epochs = 30,batch_size = 8,learning_rate = 0.05):
         elapsed_times.append(perf_counter()  - start)
         metrics = pd.DataFrame({'epoch_losses': epoch_losses, 'elapsed_time':
         elapsed_times})
-        metrics.to_csv('/lustre/haven/proj/UTK0150/atown/assignment4/metrics_8P.csv')
+        metrics.to_csv('/lustre/haven/proj/UTK0150/atown/assignment4/metrics_1P.csv')
     return iter_losses, epoch_losses
 
 

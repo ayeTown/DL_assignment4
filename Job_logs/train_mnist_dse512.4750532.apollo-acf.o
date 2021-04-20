@@ -1,0 +1,49 @@
+changed into working directory
+World size: 8
+Started training
+Started training
+Started training
+Started training
+Started training
+Started training
+Started training
+Started training
+epoch 0 num_iters 938 loss 2.1612035811328685 elapsed time (s) 7.977132871747017
+epoch 1 num_iters 938 loss 2.3020712083844996 elapsed time (s) 15.803032780066133
+epoch 2 num_iters 938 loss 2.3020712091470323 elapsed time (s) 23.715583017095923
+epoch 3 num_iters 938 loss 2.3020712091470323 elapsed time (s) 31.583402939140797
+epoch 4 num_iters 938 loss 2.3020712091470323 elapsed time (s) 39.49888291582465
+epoch 5 num_iters 938 loss 2.3020712091470323 elapsed time (s) 47.426993327215314
+epoch 6 num_iters 938 loss 2.3020712091470323 elapsed time (s) 55.351924227550626
+epoch 7 num_iters 938 loss 2.3020712091470323 elapsed time (s) 63.23766512796283
+epoch 8 num_iters 938 loss 2.3020712091470323 elapsed time (s) 71.05465777218342
+epoch 9 num_iters 938 loss 2.3020712091470323 elapsed time (s) 78.97582803480327
+epoch 10 num_iters 938 loss 2.3020712091470323 elapsed time (s) 86.87062728404999
+epoch 11 num_iters 938 loss 2.3020712091470323 elapsed time (s) 94.7012804672122
+epoch 12 num_iters 938 loss 2.3020712091470323 elapsed time (s) 102.8379328828305
+epoch 13 num_iters 938 loss 2.3020712091470323 elapsed time (s) 110.64758352562785
+epoch 14 num_iters 938 loss 2.3020712091470323 elapsed time (s) 118.49502930417657
+epoch 15 num_iters 938 loss 2.3020712091470323 elapsed time (s) 126.34734962321818
+epoch 16 num_iters 938 loss 2.3020712091470323 elapsed time (s) 134.16663916409016
+epoch 17 num_iters 938 loss 2.3020712091470323 elapsed time (s) 142.05476645193994
+epoch 18 num_iters 938 loss 2.3020712091470323 elapsed time (s) 149.8795495145023
+epoch 19 num_iters 938 loss 2.3020712091470323 elapsed time (s) 157.70593890734017
+epoch 20 num_iters 938 loss 2.3020712091470323 elapsed time (s) 165.57768187485635
+epoch 21 num_iters 938 loss 2.3020712091470323 elapsed time (s) 173.87681917101145
+epoch 22 num_iters 938 loss 2.3020712091470323 elapsed time (s) 181.74465714022517
+epoch 23 num_iters 938 loss 2.3020712091470323 elapsed time (s) 189.63159495592117
+epoch 24 num_iters 938 loss 2.3020712091470323 elapsed time (s) 197.5015007238835
+epoch 25 num_iters 938 loss 2.3020712091470323 elapsed time (s) 205.46959075517952
+epoch 26 num_iters 938 loss 2.3020712091470323 elapsed time (s) 213.2929958831519
+epoch 27 num_iters 938 loss 2.3020712091470323 elapsed time (s) 221.16218925639987
+epoch 28 num_iters 938 loss 2.3020712091470323 elapsed time (s) 229.0938983000815
+epoch 29 num_iters 938 loss 2.3020712091470323 elapsed time (s) 236.95391790755093
+Ended training
+Ended training
+Ended training
+Ended training
+Ended training
+Ended training
+Ended training
+Ended training
+done running python file.
